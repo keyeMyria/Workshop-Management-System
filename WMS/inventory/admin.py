@@ -3,17 +3,18 @@
 from django.contrib import admin
 from .models import InRecord, OutRecord, Warehouse
 
+from base.admin import CustomAdmin
 from .services import set_salary
 
-
-class OutRecordAdmin(admin.ModelAdmin):
+@admin.register(OutRecord)
+class OutRecordAdmin(CustomAdmin):
     fields = ['number', 'product', 'create_date']
     list_display = ['product', 'number', 'create_date', 'updated_datetime']
-    search_fields = ['product', 'number']
+    search_fields = ['product__name', 'number']
     list_filter = ['product', 'create_date', 'updated_datetime']
 
-    def save_models(self):
-        obj = self.new_obj
+    def save_model(self, request, obj, form, change):
+
         if obj.number == 0:
             # 抛出异常
             pass
@@ -42,21 +43,18 @@ class OutRecordAdmin(admin.ModelAdmin):
             ware.save(update_fields=['number'])
             obj.save(update_fields=['status_number', 'number'])
 
-
-class InRecordAdmin(admin.ModelAdmin):
+@admin.register(InRecord)
+class InRecordAdmin(CustomAdmin):
     fields = ['number', 'employee', 'product', 'create_date', 'updated_datetime']
     list_display = ['employee', 'product', 'number', 'create_date', 'updated_datetime']
-    search_fields = ['employee', 'product', 'number']
-    list_filter = ['employee', 'product', 'create_date', 'updated_datetime']
+    search_fields = ['employee__username', 'product', 'number']
+    list_filter = []
     readonly_fields = ['create_date', 'updated_datetime']
 
-    def save_models(self):
-        obj = self.new_obj
-
+    def save_model(self, request, obj, form, change):
         if obj.number == 0:
             # 抛出异常
             pass
-
         if obj.status_number == 0:
             # 创建 入库 记录的操作
             # 更新记录
@@ -69,10 +67,8 @@ class InRecordAdmin(admin.ModelAdmin):
             else:
                 ware = Warehouse.objects.create(product=obj.product, number=obj.number)
             ware.save()
-
             # 更新工资记录
             set_salary(obj)
-
         else:
             # 更新 入库记录
             # 更新库存状态
@@ -86,14 +82,11 @@ class InRecordAdmin(admin.ModelAdmin):
             # 更新工资记录
             set_salary(obj)
 
-
-class WarehouseAdmin(admin.ModelAdmin):
+@admin.register(Warehouse)
+class WarehouseAdmin(CustomAdmin):
+    list_display_links = None
     list_display = ['product', 'number', 'updated_time']
     search_fields = ['product', 'number']
     list_filter = ['product', 'number', 'updated_time']
     readonly_fields = list_display
 
-
-admin.site.register(OutRecord, OutRecordAdmin)
-admin.site.register(InRecord, InRecordAdmin)
-admin.site.register(Warehouse, WarehouseAdmin)

@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
-
 from django.contrib import admin
 
+from base.admin import CustomAdmin
 from .models import Salary, SalaryList
 
 
-class SalaryListAdmin(admin.ModelAdmin):
+class SalaryListAdmin(CustomAdmin):
     fileds = ['employee', 'employee_group', 'product', 'number', 'amount', 'create_date', 'status']
     list_display = ['employee', 'employee_group', 'product', 'number', 'amount', 'create_date', 'status']
     search_fields = ['employee', 'amount']
@@ -28,7 +28,7 @@ class SalaryListAdmin(admin.ModelAdmin):
     number.short_description = u'数量'
 
 
-class SalaryAdmin(admin.ModelAdmin):
+class SalaryAdmin(CustomAdmin):
     list_display = ['month', 'employee', 'amount', 'status']
     search_fields = ['employee', 'amount']
     list_filter = ['employee', 'amount', 'month', 'status']
