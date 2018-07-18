@@ -8,7 +8,7 @@ SECRET_KEY = 'fli=(wbzw+o^_8nxqb1!01*byehw39p%d+@=&mje4(v2&x_h6a'
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 
