@@ -13,6 +13,8 @@ class EmployeeAdmin(CustomAdmin):
     list_filter = ['status', 'group', 'position']
     readonly_fields = ['entry_date']
 
+
+
 @admin.register(EmployeeGroup)
 class EmployeeGroupAdmin(CustomAdmin):
     fields = ['name', 'contained_max', 'principal', 'address', 'phone', 'create_date']
@@ -22,7 +24,5 @@ class EmployeeGroupAdmin(CustomAdmin):
     actions_on_bottom = False
     actions_on_top = True
 
-    def save_model(self, request, obj, form, change):
-        obj.flag = settings.EMPLOYEE_GROUP.get(obj.name)
-        obj.save()
+
 

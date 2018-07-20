@@ -27,7 +27,7 @@ class InRecord(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.id
+        return '{0} -- {1}'.format(self.number, self.product)
 
     def __unicode__(self):
         return '{0} -- {1}'.format(self.number, self.product)

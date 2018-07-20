@@ -16,7 +16,7 @@ class OutRecordAdmin(CustomAdmin):
     def save_model(self, request, obj, form, change):
 
         if obj.number == 0:
-            # 抛出异常
+
             pass
 
         if obj.status_number == 0:
@@ -51,6 +51,7 @@ class InRecordAdmin(CustomAdmin):
     list_filter = []
     readonly_fields = ['create_date', 'updated_datetime']
 
+
     def save_model(self, request, obj, form, change):
         if obj.number == 0:
             # 抛出异常
@@ -81,6 +82,8 @@ class InRecordAdmin(CustomAdmin):
             obj.save(update_fields=['status_number', 'number'])
             # 更新工资记录
             set_salary(obj)
+
+
 
 @admin.register(Warehouse)
 class WarehouseAdmin(CustomAdmin):

@@ -5,6 +5,7 @@ from salary.models import SalaryList
 
 def set_salary(obj):
     group_flag = obj.employee.group.flag
+    amount = 0
     if group_flag == 2:
         amount = obj.number * obj.product.cj_price
     elif group_flag == 4:
@@ -19,6 +20,7 @@ def set_salary(obj):
     saralylist = SalaryList.objects.filter(inrecord=obj).first()
 
     if saralylist is not None:
+        print(amount)
         saralylist.amount = amount
         saralylist.save(update_fields=['amount'])
     else:
