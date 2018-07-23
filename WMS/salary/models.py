@@ -7,14 +7,14 @@ from django.db import models
 from django.utils import timezone
 
 
-from employees.models import Employee
+from users.models import User
 
 
 class SalaryList(models.Model):
     '''
     工资
     '''
-    employee = models.ForeignKey("employees.Employee", help_text=u'姓名', verbose_name=u'姓名', on_delete=models.CASCADE)
+    user = models.ForeignKey("users.User", help_text=u'姓名', verbose_name=u'姓名', on_delete=models.CASCADE)
     amount = models.DecimalField(default=Decimal(0.00), max_digits=20, decimal_places=2, help_text=u'金额',
                                  verbose_name=u'金额')
     create_date = models.DateTimeField(default=timezone.now, help_text=u'时间', verbose_name=u'时间')
@@ -30,14 +30,14 @@ class SalaryList(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.employee
+        return self.user.username
 
     def __unicode__(self):
-        return self.employee.username
+        return self.user.username
 
 
 class Salary(models.Model):
-    employee = models.ForeignKey('employees.Employee', verbose_name=u'员工', help_text=u'员工', on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', verbose_name=u'员工', help_text=u'员工', on_delete=models.CASCADE)
     amount = models.DecimalField(default=Decimal('0.00'), max_digits=20, decimal_places=2, verbose_name=u'月薪资',
                                  help_text=u'月薪资')
     month = models.CharField(max_length=10, verbose_name=u'月份', help_text=u'月份')
@@ -50,7 +50,7 @@ class Salary(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.employee.username
+        return self.user.username
 
     def __unicode__(self):
-        return self.employee.username
+        return self.user.username

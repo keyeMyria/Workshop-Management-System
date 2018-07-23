@@ -10,7 +10,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-
+AUTH_USER_MODEL = 'users.User'
 
 INSTALLED_APPS = [
     'suit',
@@ -23,7 +23,7 @@ INSTALLED_APPS = [
 
     # 业务app
     'base.apps.BaseConfig',
-    'employees.apps.EmployeesConfig',
+    'users.apps.UsersConfig',
     'inventory.apps.InventoryConfig',
     'products.apps.ProductsConfig',
     'salary.apps.SalaryConfig'
@@ -68,7 +68,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'NAME': 'warehouse',
+        'NAME': 'wms',
         'USER': 'root',
         'PASSWORD': 'root',
 
@@ -102,13 +102,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-EMPLOYEE_GROUP ={
-    u'办公室':1,
-    u'裁剪组':2,
-    u'缝纫组':3,
-    u'熨烫组':4,
-    u'包装组':5,
-    u'运输组':6,
+USER_GROUP ={
+    1:u'办公室',
+    2:u'裁剪组',
+    3:u'缝纫组',
+    4:u'熨烫组',
+    5:u'包装组',
+    6:u'运输组',
+    7: u"日工",
 }
 
 BROKER_URL = 'redis://localhost:6379/'

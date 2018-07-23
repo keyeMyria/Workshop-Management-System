@@ -45,9 +45,9 @@ class OutRecordAdmin(CustomAdmin):
 
 @admin.register(InRecord)
 class InRecordAdmin(CustomAdmin):
-    fields = ['number', 'employee', 'product', 'create_date', 'updated_datetime']
-    list_display = ['employee', 'product', 'number', 'create_date', 'updated_datetime']
-    search_fields = ['employee__username', 'product', 'number']
+    fields = ['number', 'user', 'product', 'create_date', 'updated_datetime']
+    list_display = ['user', 'product', 'number', 'create_date', 'updated_datetime']
+    search_fields = ['user__username', 'product', 'number']
     list_filter = []
     readonly_fields = ['create_date', 'updated_datetime']
 

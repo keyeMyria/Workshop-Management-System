@@ -4,14 +4,14 @@
 from salary.models import SalaryList
 
 def set_salary(obj):
-    group_flag = obj.employee.group.flag
+    group_flag = obj.user.group
     amount = 0
     if group_flag == 2:
         amount = obj.number * obj.product.cj_price
-    elif group_flag == 4:
-        amount = obj.number * obj.product.yt_price
     elif group_flag == 3:
         amount = obj.number * obj.product.fr_price
+    elif group_flag == 4:
+        amount = obj.number * obj.product.yt_price
     elif group_flag == 5:
         amount = obj.number * obj.product.bz_price
     else:
@@ -20,11 +20,10 @@ def set_salary(obj):
     saralylist = SalaryList.objects.filter(inrecord=obj).first()
 
     if saralylist is not None:
-        print(amount)
         saralylist.amount = amount
         saralylist.save(update_fields=['amount'])
     else:
-        saralylist = SalaryList.objects.create(employee=obj.employee,create_date=obj.create_date, inrecord=obj, amount=amount)
+        saralylist = SalaryList.objects.create(user=obj.user,create_date=obj.create_date, inrecord=obj, amount=amount)
     saralylist.save()
 
 
@@ -32,7 +31,7 @@ def set_salary(obj):
 
 import random
 import datetime
-from employees.models import Employee
+from users.models import User
 from products.models import Product
 from .models import Warehouse
 from .models import InRecord
@@ -40,15 +39,15 @@ from django.utils import timezone
 
 
 def gen_fake(num):
-    employees = Employee.objects.all()
+    users = User.objects.all()
     products = Product.objects.all()
     date = timezone.datetime.now(tz=timezone.utc)
     for x in range(num):
         number = random.randint(5, 30)
         create_date = date - datetime.timedelta(days=random.randint(0, 90))
-        employee = employees[random.randint(0, len(employees)-1)]
+        user = users[random.randint(0, len(users)-1)]
         product = products[random.randint(0, len(products)-1)]
-        obj = InRecord.objects.create(employee=employee, product=product, status_number=number, number=number, create_date=create_date)
+        obj = InRecord.objects.create(user=user, product=product, status_number=number, number=number, create_date=create_date)
         ware = Warehouse.objects.filter(product=obj.product).first()
         if ware is not None:
             ware.number += obj.number
@@ -56,7 +55,7 @@ def gen_fake(num):
             ware = Warehouse.objects.create(product=obj.product, number=obj.number)
         ware.save()
 
-        group_flag = obj.employee.group.flag
+        group_flag = obj.user.group.flag
         if group_flag == 2:
             amount = obj.number * obj.product.cj_price
         elif group_flag == 4:
@@ -74,5 +73,5 @@ def gen_fake(num):
             saralylist.amount = amount
             saralylist.save(update_fields=['amount'])
         else:
-            saralylist = SalaryList.objects.create(employee=obj.employee, create_date=obj.create_date, inrecord=obj, amount=amount)
+            saralylist = SalaryList.objects.create(user=obj.user, create_date=obj.create_date, inrecord=obj, amount=amount)
         saralylist.save()

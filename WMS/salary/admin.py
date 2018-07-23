@@ -6,16 +6,16 @@ from .models import Salary, SalaryList
 
 
 class SalaryListAdmin(CustomAdmin):
-    fileds = ['employee', 'employee_group', 'product', 'number', 'amount', 'create_date', 'status']
-    list_display = ['employee', 'employee_group', 'product', 'number', 'amount', 'create_date', 'status']
-    search_fields = ['employee', 'amount']
-    list_filter = ['employee', 'amount', 'create_date', 'status']
-    readonly_fields = ['employee', 'employee_group', 'product', 'number', 'amount', 'create_date', 'status', 'inrecord']
+    fileds = ['user', 'user_group', 'product', 'number', 'amount', 'create_date', 'status']
+    list_display = ['user', 'user_group', 'product', 'number', 'amount', 'create_date', 'status']
+    search_fields = ['user', 'amount']
+    list_filter = ['user', 'amount', 'create_date', 'status']
+    readonly_fields = ['user', 'user_group', 'product', 'number', 'amount', 'create_date', 'status', 'inrecord']
     ordering = ['-create_date']
     list_display_links = []
 
-    def employee_group(self, obj):
-        return obj.inrecord.employee.group
+    def user_group(self, obj):
+        return obj.inrecord.user.group
 
     def product(self, obj):
         return obj.inrecord.product
@@ -23,18 +23,18 @@ class SalaryListAdmin(CustomAdmin):
     def number(self, obj):
         return obj.inrecord.number
 
-    employee_group.short_description = u'部门'
+    user_group.short_description = u'部门'
     product.short_description = u'产品'
     number.short_description = u'数量'
 
 
 class SalaryAdmin(CustomAdmin):
-    list_display = ['month', 'employee', 'amount', 'status']
-    search_fields = ['employee', 'amount']
-    list_filter = ['employee', 'amount', 'month', 'status']
-    list_display_links = ['employee']
-    readonly_fields = ['employee', 'amount', 'month', ]
-    ordering = ['-month', 'employee']
+    list_display = ['month', 'user', 'amount', 'status']
+    search_fields = ['user', 'amount']
+    list_filter = ['user', 'amount', 'month', 'status']
+    list_display_links = ['user']
+    readonly_fields = ['user', 'amount', 'month', ]
+    ordering = ['-month', 'user']
     list_editable = ['status']
 
 
