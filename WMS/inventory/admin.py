@@ -6,6 +6,7 @@ from .models import InRecord, OutRecord, Warehouse
 from base.admin import CustomAdmin
 from .services import set_salary
 
+
 @admin.register(OutRecord)
 class OutRecordAdmin(CustomAdmin):
     fields = ['number', 'product', 'create_date']
@@ -16,7 +17,6 @@ class OutRecordAdmin(CustomAdmin):
     def save_model(self, request, obj, form, change):
 
         if obj.number == 0:
-
             pass
 
         if obj.status_number == 0:
@@ -43,6 +43,7 @@ class OutRecordAdmin(CustomAdmin):
             ware.save(update_fields=['number'])
             obj.save(update_fields=['status_number', 'number'])
 
+
 @admin.register(InRecord)
 class InRecordAdmin(CustomAdmin):
     fields = ['number', 'user', 'product', 'create_date', 'updated_datetime']
@@ -51,12 +52,12 @@ class InRecordAdmin(CustomAdmin):
     list_filter = []
     readonly_fields = ['create_date', 'updated_datetime']
 
-
     def save_model(self, request, obj, form, change):
+
         if obj.number == 0:
             # 抛出异常
             pass
-        if obj.status_number == 0:
+        if not change:
             # 创建 入库 记录的操作
             # 更新记录
             obj.status_number = obj.number
@@ -84,7 +85,6 @@ class InRecordAdmin(CustomAdmin):
             set_salary(obj)
 
 
-
 @admin.register(Warehouse)
 class WarehouseAdmin(CustomAdmin):
     list_display_links = None
@@ -92,4 +92,3 @@ class WarehouseAdmin(CustomAdmin):
     search_fields = ['product', 'number']
     list_filter = ['product', 'number', 'updated_time']
     readonly_fields = list_display
-

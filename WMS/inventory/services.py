@@ -24,7 +24,7 @@ def set_salary(obj):
         saralylist.save(update_fields=['amount'])
     else:
         saralylist = SalaryList.objects.create(user=obj.user,create_date=obj.create_date, inrecord=obj, amount=amount)
-    saralylist.save()
+        saralylist.save()
 
 
 # 生成虚拟数据
