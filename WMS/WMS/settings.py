@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 import os
 
+from .settings_django_suit import *
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -13,7 +15,8 @@ ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'users.User'
 
 INSTALLED_APPS = [
-    'suit',
+    # 'suit',
+    'django_suit.apps.SuitConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -13,6 +13,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
     员工
     """
+    user_group = (
+        (1, u'办公室'),
+        (2, u'裁剪组'),
+        (3, u'缝纫组'),
+        (4, u'熨烫组'),
+        (5, u'包装组'),
+        (6, u'运输组'),
+        (7, u"日工"),
+    )
 
     username = models.CharField(max_length=20, help_text=u"手机号", unique=True,
                                 verbose_name=u"手机号")
@@ -20,7 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     id_number = models.CharField(max_length=45, unique=True, null=True, error_messages={"unique": u"此成员已存在"},
                                  blank=True, help_text=u"身份证号码", verbose_name=u"身份证号码")
 
-    address = models.CharField(max_length=100, null=True, help_text=u'家庭住址', verbose_name=u'家庭住址')
+    address = models.CharField(max_length=100, null=True, blank=True, help_text=u'家庭住址', verbose_name=u'家庭住址')
     status = models.SmallIntegerField(default=1, help_text=u'状态', verbose_name=u'状态',
                                       choices=((0, u"已经离职"), (1, u"在职")))
     position = models.SmallIntegerField(default=0, help_text=u'职务', verbose_name=u'职务',
@@ -28,7 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     entry_date = models.DateTimeField(default=timezone.now, help_text=u"入职时间", verbose_name=u"入职时间")
     leaving_date = models.DateTimeField(default=None, null=True, blank=True, help_text=u'离职时间', verbose_name=u"离职时间")
 
-    group = models.SmallIntegerField(default=0)
+    group = models.SmallIntegerField(default=0, choices=user_group, verbose_name=u"部门", help_text=u"部门")
 
     is_staff = models.BooleanField(default=False, help_text=u"用户是否能登录后台管理系统", verbose_name=u"是否登录后台")
     is_active = models.BooleanField(default=False, help_text=u"是否有效", verbose_name=u"是否有效", choices=(

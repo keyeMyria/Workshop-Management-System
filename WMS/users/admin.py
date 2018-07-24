@@ -3,6 +3,7 @@
 from django.contrib import admin
 from django.conf import settings
 
+
 from base.admin import CustomAdmin
 from .models import User
 
@@ -14,7 +15,7 @@ class UserAdmin(CustomAdmin):
     readonly_fields = ['entry_date']
 
 
-#
+
 # @admin.register(UserGroup)
 # class UserGroupAdmin(CustomAdmin):
 #     fields = ['name', 'contained_max', 'principal', 'address', 'phone', 'create_date']
@@ -23,6 +24,4 @@ class UserAdmin(CustomAdmin):
 #     readonly_fields = ['create_date']
 #     actions_on_bottom = False
 #     actions_on_top = True
-#
-#
 
