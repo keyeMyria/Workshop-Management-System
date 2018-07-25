@@ -9,10 +9,10 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(CustomAdmin):
-    list_display = ['username', 'department', 'status', 'position', 'entry_date']
-    search_fields = ['username']
+    list_display = ['full_name', 'username', 'department', 'status', 'position', 'entry_date']
+    search_fields = ['full_name', 'username', ]
     list_filter = ['status', 'department', 'position']
-    readonly_fields = ['entry_date', 'leaving_date']
+    readonly_fields = ['entry_date', 'leaving_date', 'last_login']
 
     fieldsets = [
         ('个人信息', {

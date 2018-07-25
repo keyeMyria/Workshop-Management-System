@@ -48,9 +48,14 @@ class OutRecord(models.Model):
     class Meta:
         app_label = "inventory"
         db_table = "inventory_out_record"
-        verbose_name = u"出库管理"
+        verbose_name = u"出库记录"
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return "%s - %s 件" %(self.product.name,self.number)
+
+    def __unicode__(self):
+        return "%s - %s 件" % (self.product.name, self.number)
 
 class Warehouse(models.Model):
     '''
