@@ -1,21 +1,26 @@
 # -*- coding:utf-8 -*-
 from django.contrib import admin
 
+from django.urls import reverse
+from django.utils.html import format_html
+
 from base.admin import CustomAdmin
 from .models import Salary, SalaryList
 
 
 class SalaryListAdmin(CustomAdmin):
-    fileds = ['user', 'user_group', 'product', 'number', 'amount', 'create_date', 'status']
-    list_display = ['user', 'user_group', 'product', 'number', 'amount', 'create_date', 'status']
+
+    list_display = ['department','user',  'product', 'number', 'amount', 'create_date', 'status','inrecord']
     search_fields = ['user', 'amount']
     list_filter = ['user', 'amount', 'create_date', 'status']
-    readonly_fields = ['user', 'user_group', 'product', 'number', 'amount', 'create_date', 'status', 'inrecord']
     ordering = ['-create_date']
     list_display_links = []
 
-    def user_group(self, obj):
-        return obj.inrecord.user.group
+    def has_add_permission(self, request):
+        return False
+
+    def department(self, obj):
+        return obj.inrecord.user.department
 
     def product(self, obj):
         return obj.inrecord.product
@@ -23,7 +28,14 @@ class SalaryListAdmin(CustomAdmin):
     def number(self, obj):
         return obj.inrecord.number
 
-    user_group.short_description = u'部门'
+    def inrecord(self, obj):
+        inrecord = obj.inrecord
+        link = reverse("admin:inventory_inrecord_change", args=(inrecord.id,))
+        a_text = "入库记录"
+        return format_html('<a target="_blank" href="%s">%s</a>' % (link, a_text))
+
+
+    department.short_description = u'部门'
     product.short_description = u'产品'
     number.short_description = u'数量'
 
@@ -36,6 +48,10 @@ class SalaryAdmin(CustomAdmin):
     readonly_fields = ['user', 'amount', 'month', ]
     ordering = ['-month', 'user']
     list_editable = ['status']
+
+    def has_add_permission(self, request):
+        return False
+
 
 
 admin.site.register(Salary, SalaryAdmin)

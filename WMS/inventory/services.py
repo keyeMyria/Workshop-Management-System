@@ -4,15 +4,15 @@
 from salary.models import SalaryList
 
 def set_salary(obj):
-    group_flag = obj.user.group
+    department_flag = obj.user.department
     amount = 0
-    if group_flag == 2:
+    if department_flag == 2:
         amount = obj.number * obj.product.cj_price
-    elif group_flag == 3:
+    elif department_flag == 3:
         amount = obj.number * obj.product.fr_price
-    elif group_flag == 4:
+    elif department_flag == 4:
         amount = obj.number * obj.product.yt_price
-    elif group_flag == 5:
+    elif department_flag == 5:
         amount = obj.number * obj.product.bz_price
     else:
         # 该员工不属于该计工资规则
@@ -55,7 +55,7 @@ def gen_fake(num):
             ware = Warehouse.objects.create(product=obj.product, number=obj.number)
         ware.save()
 
-        group_flag = obj.user.group.flag
+        group_flag = obj.user.department
         if group_flag == 2:
             amount = obj.number * obj.product.cj_price
         elif group_flag == 4:

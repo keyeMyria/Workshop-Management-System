@@ -5,6 +5,7 @@ from .models import InRecord, OutRecord, Warehouse
 
 from base.admin import CustomAdmin
 from .services import set_salary
+from .forms import *
 
 
 @admin.register(OutRecord)
@@ -16,16 +17,18 @@ class OutRecordAdmin(CustomAdmin):
 
     def save_model(self, request, obj, form, change):
 
-        if obj.number == 0:
-            pass
+        if not change:
 
-        if obj.status_number == 0:
+            if obj.number == 0:
+                pass
+
             # 新建 出库记录
-            ware = Warehouse.objects.get(product=obj.product)
-            if ware is not None or ware.number < obj.number:
+            ware = Warehouse.objects.filter(product=obj.product).first()
+            if ware is None or ware.number < obj.number:
                 # 抛出异常 库存不足
                 # return '库存不足'
                 pass
+
             obj.status_number = obj.number
             obj.save()
             ware.number -= obj.number
@@ -46,7 +49,7 @@ class OutRecordAdmin(CustomAdmin):
 
 @admin.register(InRecord)
 class InRecordAdmin(CustomAdmin):
-    fields = ['number', 'user', 'product', 'create_date', 'updated_datetime']
+    fields = ['user', ('product', 'number'), ('create_date', 'updated_datetime')]
     list_display = ['user', 'product', 'number', 'create_date', 'updated_datetime']
     search_fields = ['user__username', 'product', 'number']
     list_filter = []
@@ -92,3 +95,6 @@ class WarehouseAdmin(CustomAdmin):
     search_fields = ['product', 'number']
     list_filter = ['product', 'number', 'updated_time']
     readonly_fields = list_display
+
+    def has_add_permission(self, request):
+        return False

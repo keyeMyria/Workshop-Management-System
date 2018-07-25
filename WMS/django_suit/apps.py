@@ -7,11 +7,12 @@ from suit.menu import ParentItem, ChildItem
 
 admin.site.site_header = "WMS"
 
+
 class SuitConfig(DjangoSuitConfig):
     menu = (
         ParentItem('用户', children=[
             ChildItem(model='users.user'),
-
+            ChildItem('管理员组',model='auth.group'),
         ], icon='fa fa-leaf'),
         ParentItem('产品', children=[
             ChildItem(model='products.product'),
@@ -29,5 +30,5 @@ class SuitConfig(DjangoSuitConfig):
             # 通用view
             # ChildItem('Open Google', url='http://google.com', target_blank=True),
 
-        ], icon='fa fa-cog'), # align_right=True,),
+        ], icon='fa fa-cog'),  # align_right=True,),
     )
