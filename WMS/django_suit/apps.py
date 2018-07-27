@@ -5,8 +5,7 @@ from django.contrib import admin
 from suit.apps import DjangoSuitConfig
 from suit.menu import ParentItem, ChildItem
 
-admin.site.site_header = "WMS"
-
+admin.site.site_header = "六福服饰管理系统"
 
 class SuitConfig(DjangoSuitConfig):
     menu = (
@@ -26,9 +25,6 @@ class SuitConfig(DjangoSuitConfig):
         ParentItem('工资记录', children=[
             ChildItem(model='salary.salarylist'),
             ChildItem(model='salary.salary'),
-
-            # 通用view
-            # ChildItem('Open Google', url='http://google.com', target_blank=True),
 
         ], icon='fa fa-cog'),  # align_right=True,),
     )

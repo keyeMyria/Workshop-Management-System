@@ -1,6 +1,8 @@
 {% extends 'admin/base.html' %}
 {% load i18n admin_static suit_tags %}
 
+
+
 {% block stylesheet %}{% static "suit/css/suit.css" %}{% endblock %}
 
 {% block extrastyle %}
@@ -16,7 +18,7 @@
     <h1 id="site-name">
         <a href="{% url 'admin:index' %}">
             {{ site_header|default:_('Django administration') }}
-            <span class="header-label">{% trans 'Admin' %}</span></a>
+           <!-- <span class="header-label">{#% trans 'Admin' %#}</span></a> -->
     </h1>
 {% endblock %}
 
@@ -75,7 +77,6 @@
 
 {% block footer %}
 {#    </div> <!-- Put footer outside #container -->#}
-
     {% if not is_popup %}
         <div id="footer">
         <footer class="footer">
