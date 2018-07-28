@@ -16,11 +16,13 @@ class SuitConfig(DjangoSuitConfig):
         ParentItem('产品', children=[
             ChildItem(model='products.product'),
             ChildItem(model='products.productcategory'),
+            ChildItem(model='products.warehouse'),
         ], icon='fa fa-leaf'),
-        ParentItem('仓库管理', children=[
-            ChildItem(model='inventory.inrecord'),
-            ChildItem(model='inventory.outrecord'),
-            ChildItem(model='inventory.warehouse'),
+        ParentItem('记工', children=[
+            ChildItem(model='records.recordtailor'),
+            ChildItem(model='records.recordsew'),
+            ChildItem(model='records.recordiron'),
+            ChildItem(model='records.recordoutput'),
         ], icon='fa fa-users'),
         ParentItem('工资记录', children=[
             ChildItem(model='salary.salarylist'),

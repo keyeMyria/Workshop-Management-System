@@ -3,6 +3,6 @@
 from django.apps import AppConfig
 
 
-class InventoryConfig(AppConfig):
-    name = 'inventory'
+class RecordsConfig(AppConfig):
+    name = 'records'
     verbose_name = '进出库/库存管理'
