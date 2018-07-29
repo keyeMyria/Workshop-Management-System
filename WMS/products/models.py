@@ -62,7 +62,8 @@ class ProductBid(models.Model):
     产品标的由裁剪组记录发出，与裁剪记录为一对一关系。
     """
     # product = models.ForeignKey("products.Product", help_text=u'产品', verbose_name=u'产品', on_delete=models.CASCADE)
-    # number = models.IntegerField(help_text=u'数量', verbose_name=u'数量')
+    status_num =models.IntegerField(help_text=u'数量状态', verbose_name=u'数量状态')
+    number = models.IntegerField(help_text=u'数量', verbose_name=u'数量')
     remainingNumberSew = models.IntegerField(help_text=u'未缝纫数量', verbose_name=u'未缝纫数量')
     remainingNumberIron = models.IntegerField(help_text=u'未熨烫（入库）数量', verbose_name=u'未熨烫（入库）数量')
     recordTailor = models.OneToOneField('records.RecordTailor', help_text=u'关联裁剪记录', verbose_name=u'关联裁剪记录', on_delete=models.CASCADE)

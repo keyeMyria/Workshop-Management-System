@@ -5,4 +5,4 @@ from django.apps import AppConfig
 
 class RecordsConfig(AppConfig):
     name = 'records'
-    verbose_name = '进出库/库存管理'
+    verbose_name = '记工'

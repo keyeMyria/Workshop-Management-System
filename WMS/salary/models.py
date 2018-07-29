@@ -18,9 +18,9 @@ class SalaryList(models.Model):
                                  verbose_name=u'金额')
     create_date = models.DateTimeField(default=timezone.now, help_text=u'时间', verbose_name=u'时间')
 
-    recordtailor = models.ForeignKey('records.RecordTailor', null=True, blank=True, on_delete=models.CASCADE, help_text=u'关联记录', verbose_name=u'关联记录')
-    recordsew = models.ForeignKey('records.RecordSew', null=True, blank=True, on_delete=models.CASCADE, help_text=u'关联记录', verbose_name=u'关联记录')
-    recordiron = models.ForeignKey('records.RecordIron', null=True, blank=True, on_delete=models.CASCADE, help_text=u'关联记录', verbose_name=u'关联记录')
+    recordTailor = models.ForeignKey('records.RecordTailor', null=True, blank=True, on_delete=models.CASCADE, help_text=u'关联记录', verbose_name=u'关联记录')
+    recordSew = models.ForeignKey('records.RecordSew', null=True, blank=True, on_delete=models.CASCADE, help_text=u'关联记录', verbose_name=u'关联记录')
+    recordIron = models.ForeignKey('records.RecordIron', null=True, blank=True, on_delete=models.CASCADE, help_text=u'关联记录', verbose_name=u'关联记录')
 
     status = models.SmallIntegerField(default=0, verbose_name=u'状态', help_text=u'状态',
                                       choices=((0, u'未统计'), (1, u'已统计'),))

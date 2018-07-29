@@ -3,8 +3,10 @@
 from django.contrib import admin
 
 from base.admin import CustomAdmin
-from products.models import Warehouse
+from products.models import Warehouse, ProductBid
+from salary.models import SalaryList
 from .models import RecordTailor, RecordSew, RecordIron, RecordOutput
+from users.models import User
 from .services import set_salary
 from .forms import *
 
@@ -57,13 +59,26 @@ class RecordTailorAdmin(CustomAdmin):
     readonly_fields = ['create_date', 'updated_datetime']
 
     def save_model(self, request, obj, form, change):
-        from products.models import ProductBid
-        from salary.models import SalaryList
         if not change:
             super(RecordTailorAdmin, self).save_model(request, obj, form, change)
             amount = obj.product.tailor_price * obj.number
-            ProductBid.objects.create(remainingNumberSew=obj.number, remainingNumberIron=obj.number, recordTailor=obj)
-            SalaryList.objects.create(user=obj.user, amount=amount,inrecord=obj.id)
+            ProductBid.objects.create(remainingNumberSew=obj.number, remainingNumberIron=obj.number, recordTailor=obj, status_num=obj.number, number=obj.number)
+            SalaryList.objects.create(user=obj.user, amount=amount, recordTailor=obj)
+        else:
+            super(RecordTailorAdmin, self).save_model(request, obj, form, change)
+            # 更改产品标的
+            productbid = ProductBid.objects.get(recordTailor=obj)
+            num = obj.number - productbid.status_num
+            productbid.remainingNumberSew += num
+            productbid.remainingNumberIron += num
+            productbid.number = obj.number
+            productbid.status_num = obj.number
+            productbid.save()
+            # 更改工资记录
+            salarylist = SalaryList.objects.get(recordTailor=obj)
+            salarylist.user = obj.user
+            salarylist.amount = obj.product.tailor_price * obj.number
+            salarylist.save()
 
 
 @admin.register(RecordSew)
@@ -74,6 +89,29 @@ class RecordSewAdmin(CustomAdmin):
     list_filter = []
     readonly_fields = ['create_date', 'updated_datetime']
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            super(RecordSewAdmin, self).save_model(request, obj, form, change)
+            obj.status_number = obj.number
+            super(RecordSewAdmin, self).save_model(request, obj, form, change)
+            obj.productBid.remainingNumberSew -= obj.number
+            obj.productBid.save()
+            amount = obj.productBid.recordTailor.product.sew_price * obj.number
+            SalaryList.objects.create(user=obj.user, amount=amount, recordSew=obj)
+        else:
+            num = obj.status_number - obj.number
+
+            obj.productBid.remainingNumberSew += num
+            obj.productBid.save()
+            obj.status_number = obj.number
+
+            super(RecordSewAdmin, self).save_model(request, obj, form, change)
+            amount = obj.productBid.recordTailor.product.sew_price * obj.number
+            salarylist = SalaryList.objects.get(recordSew=obj)
+            salarylist.user = obj.user
+            salarylist.amount = amount
+            salarylist.save()
+
 
 @admin.register(RecordIron)
 class RecordIronAdmin(CustomAdmin):
@@ -83,34 +121,40 @@ class RecordIronAdmin(CustomAdmin):
     list_filter = []
     readonly_fields = ['create_date', 'updated_datetime']
 
-    # def save_model(self, request, obj, form, change):
-    #
-    #     if obj.number == 0:
-    #         # 抛出异常
-    #         pass
-    #     if not change:
-    #         # 创建 入库 记录的操作
-    #         # 更新记录
-    #         obj.status_number = obj.number
-    #         obj.save()
-    #         # 更新库存
-    #         ware = Warehouse.objects.filter(product=obj.product).first()
-    #         if ware:
-    #             ware.number += obj.number
-    #         else:
-    #             ware = Warehouse.objects.create(product=obj.product, number=obj.number)
-    #         ware.save()
-    #         # 更新工资记录
-    #         set_salary(obj)
-    #     else:
-    #         # 更新 入库记录
-    #         # 更新库存状态
-    #         ware = Warehouse.objects.get(product=obj.product)
-    #         ware.number -= obj.status_number
-    #         ware.number += obj.number
-    #         ware.save(update_fields=['number'])
-    #         # 更新记录状态
-    #         obj.status_number = obj.number
-    #         obj.save(update_fields=['status_number', 'number'])
-    #         # 更新工资记录
-    #         set_salary(obj)
+    def save_model(self, request, obj, form, change):
+        amount = obj.productBid.recordTailor.product.iron_price * obj.number
+        product = obj.productBid.recordTailor.product
+        if not change:
+            # 保存记录
+            obj.status_number = obj.number
+            super(RecordIronAdmin, self).save_model(request, obj, form, change)
+            # 更新产品标剩余数量
+            obj.productBid.remainingNumberIron -= obj.number
+            obj.productBid.save()
+            # 增加工资记录
+            SalaryList.objects.create(user=obj.user, amount=amount, recordIron=obj)
+            # 更新库存记录
+            warehouses = Warehouse.objects.filter(product=product)
+            if warehouses.exists():
+                warehouse = warehouses[0]
+                warehouse.number += obj.number
+                warehouse.update("number")
+            else:
+                Warehouse.objects.create(product=product, number=obj.number)
+        else:
+            # 更新产品标剩余数量
+            num = obj.status_number - obj.number
+            obj.productBid.remainingNumberIron += num
+            obj.productBid.save()
+            # 保存记录
+            obj.status_number = obj.number
+            super(RecordIronAdmin, self).save_model(request, obj, form, change)
+            # 更新工资记录
+            salarylist = SalaryList.objects.get(recordIron=obj)
+            salarylist.user = obj.user
+            salarylist.amount = amount
+            salarylist.save()
+            # 更新库存记录
+            warehouse = Warehouse.objects.get(product=product)
+            warehouse.number -= num
+            warehouse.save()
