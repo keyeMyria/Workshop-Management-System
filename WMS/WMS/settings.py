@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'records.apps.RecordsConfig',
     'products.apps.ProductsConfig',
-    'salary.apps.SalaryConfig'
+    'salary.apps.SalaryConfig',
+    'wechat.apps.WechatConfig'
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,3 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
-
-
-SERVER_HOST = ['118.126.64.162']
-SERVER_USER = 'ubuntu'

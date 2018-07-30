@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.23, for Win64 (x86_64)
 --
--- Host: localhost    Database: warehouse
+-- Host: localhost    Database: wms
 -- ------------------------------------------------------
 -- Server version	5.7.23-log
 
@@ -27,10 +27,10 @@ CREATE TABLE `products` (
   `pro_num` varchar(6) NOT NULL,
   `name` varchar(50) NOT NULL,
   `describe` varchar(50) DEFAULT NULL,
-  `cj_price` decimal(20,2) NOT NULL,
-  `fr_price` decimal(20,2) NOT NULL,
-  `yt_price` decimal(20,2) NOT NULL,
-  `bz_price` decimal(20,2) NOT NULL,
+  `tailor_price` decimal(20,2) NOT NULL,
+  `sew_price` decimal(20,2) NOT NULL,
+  `iron_price` decimal(20,2) NOT NULL,
+  `packag_price` decimal(20,2) NOT NULL,
   `status` smallint(6) NOT NULL,
   `created_datetime` datetime(6) NOT NULL,
   `updated_datetime` datetime(6) NOT NULL,
@@ -60,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-28 22:12:16
+-- Dump completed on 2018-07-30 21:03:40

@@ -4,12 +4,14 @@ import datetime
 from fabric.api import env, run, prompt, local
 from fabric.state import output
 
-from WMS.local import  SERVER_HOST,SERVER_USER
+SERVER_HOST = ['118.126.64.162']
+SERVER_USER = 'ubuntu'
 
 env.environment = ""
 env.full = False
 output["running"] = False
 output["stdout"] = False
+
 
 def prd():
     """	生产环境 """
@@ -34,7 +36,7 @@ def deploy():
     # 获取当前分支
     dev_branch = local('git rev-parse --abbrev-ref HEAD', capture=True)
 
-    print("当前分支dev_branch：%s"%dev_branch)
+    print("当前分支dev_branch：%s" % dev_branch)
 
     # 生成tag号
     tag_str = _tag("REG", dev_branch)
@@ -48,6 +50,7 @@ def deploy():
 def _del_redis_keys():
     run("redis-cli del :1:schedule_once")
 
+
 def _tag(server_type, current_branch=None):
     if server_type == "REG":
         local("git checkout master")
@@ -60,6 +63,7 @@ def _tag(server_type, current_branch=None):
     # print(green(" * pushing tag: %s\n" % tag_str))
     local("git push --tags")
     return tag_str
+
 
 # 更新生产服务器
 def _update_prd(tag_str):
