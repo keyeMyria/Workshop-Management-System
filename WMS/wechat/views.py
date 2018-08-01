@@ -12,9 +12,7 @@ from .serializers import WechatValidateSerializer
 class WechatValidate(APIView):
 
     def get(self, request):
-        # return HttpResponse("test")
-
-        serializer = WechatValidateSerializer(data=request.QUERY_PARAMS)
+        serializer = WechatValidateSerializer(data=request.query_params)
         if not serializer.is_valid():
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
         return HttpResponse(serializer.validated_data("echostr"))
