@@ -4,5 +4,5 @@ from .views import WechatValidate
 
 app_name = 'wechat'
 urlpatterns = [
-    path(r'validate', WechatValidate.as_view(), name='vailtate'),
+    path('validate', WechatValidate.as_view(), name='vailtate'),
 ]
