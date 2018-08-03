@@ -20,3 +20,5 @@ class WechatValidateSerializer(serializers.Serializer):
         if hashlib.sha1(''.join(array)).hexdigest() != attrs['echostr']:
             raise ValidationError('验证失败')
         return attrs
+
+

@@ -9,7 +9,7 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from .serializers import WechatValidateSerializer
 
 
-class WechatValidate(APIView):
+class WechatValidateView(APIView):
 
     def get(self, request):
         serializer = WechatValidateSerializer(data=request.query_params)
