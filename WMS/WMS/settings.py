@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'records.apps.RecordsConfig',
     'products.apps.ProductsConfig',
     'salary.apps.SalaryConfig',
-    'wechat.apps.WechatConfig'
+    'wechat.apps.WechatConfig',
+    'testing.apps.TestingConfig'
 ]
 
 MIDDLEWARE = [
@@ -64,14 +65,12 @@ WSGI_APPLICATION = 'WMS.wsgi.application'
 
 DATABASES = {
     'default': {
-
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'NAME': 'wms',
         'USER': 'root',
         'PASSWORD': 'root',
-
     }
 }
 
