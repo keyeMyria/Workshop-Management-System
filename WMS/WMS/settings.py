@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'records.apps.RecordsConfig',
     'products.apps.ProductsConfig',
     'salary.apps.SalaryConfig',
-    'wechat.apps.WechatConfig'
+    'wechat.apps.WechatConfig',
+    'testing.apps.TestingConfig'
 ]
 
 MIDDLEWARE = [
