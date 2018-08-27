@@ -101,16 +101,8 @@
     };
 
     function get_uploaded_object_name(filename) {
-        if (g_object_name_type == 'local_name') {
-            tmp_name = g_object_name
-            tmp_name = tmp_name.replace("${filename}", filename);
-            return tmp_name
-        }
-        else if (g_object_name_type == 'random_name') {
             return g_object_name
-        }
     };
-
 
     // 整理文件名 总是随机的文件名成
     function calculate_object_name(filename) {
