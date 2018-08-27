@@ -98,14 +98,26 @@
             suffix = filename.substring(pos)
         }
         return suffix;
-    }
+    };
+
+    function get_uploaded_object_name(filename) {
+        if (g_object_name_type == 'local_name') {
+            tmp_name = g_object_name
+            tmp_name = tmp_name.replace("${filename}", filename);
+            return tmp_name
+        }
+        else if (g_object_name_type == 'random_name') {
+            return g_object_name
+        }
+    };
+
 
     // 整理文件名 总是随机的文件名成
     function calculate_object_name(filename) {
         suffix = get_suffix(filename);
         g_object_name = key + random_string(10) + suffix;
         return ''
-    }
+    };
 
     // 设置上传的参数
     function set_upload_param(up, filename, ret) {
