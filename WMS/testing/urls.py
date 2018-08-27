@@ -7,5 +7,5 @@ urlpatterns = [
 
     path('ossupload', ossimageupload),
     path('get_token/', get_token, name='gettoken'),
-    path('osscallback/', osscallback, name='gettoken'),
+    path('osscallback/', osscallback, name='osscallback'),
 ]
