@@ -1,7 +1,8 @@
 
 .idea
 *.pyc
-/docs/
-/static/
+docs/
+static/
 local.py
 fabfile.py
+prd.py
