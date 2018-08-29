@@ -6,6 +6,6 @@ app_name = 'wechat'
 urlpatterns = [
 
     path('ossupload', ossimageupload),
-    path('get_token/', get_token, name='gettoken'),
+    path('get_token/',get_token_callback, name='gettoken'),
     path('osscallback/', osscallback, name='osscallback'),
 ]

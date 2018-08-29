@@ -14,5 +14,9 @@ class WechatValidateView(APIView):
     def get(self, request):
         serializer = WechatValidateSerializer(data=request.query_params)
         if not serializer.is_valid():
-            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-        return HttpResponse(serializer.validated_data("echostr"))
+            return Response(
+                serializer.errors, status=HTTP_400_BAD_REQUEST
+            )
+
+        return HttpResponse(serializer.validated_data["echostr"])
+

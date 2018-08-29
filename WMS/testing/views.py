@@ -78,7 +78,11 @@ from django.views.decorators.csrf import csrf_exempt,csrf_protect
 def osscallback(requests):
     if requests.method == 'POST':
         print("成功访问了！！")
-        resp_body = {"Status":"OK"}
+        print("POST数据：")
+        print(requests.POST)
+        print("\nHEADER为：")
+        print(requests.META)
+        resp_body = {"Status":"OK","filename":requests.POST.get("filename")}
         return HttpResponse(json.dumps(resp_body),status=200)
 
         # #get public key
